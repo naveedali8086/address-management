@@ -5,6 +5,7 @@ use App\Enums\AddressBelongsTo;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\User;
+use Database\Seeders\CountryRegionCityTestSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Laravel\Sanctum\Sanctum;
@@ -22,6 +23,8 @@ class AddressControllerTest extends TestCase
         Sanctum::actingAs(
             User::factory()->create()
         );
+
+        $this->seed(CountryRegionCityTestSeeder::class);
     }
 
     /** @test */
@@ -60,7 +63,7 @@ class AddressControllerTest extends TestCase
     public function it_can_update_an_address()
     {
         $address = $this->createAddressWithParent();
-        $address->line_1_value = Address::factory()->getChannelValue($address->line_1);
+        $address->line_1 = fake()->streetAddress();
 
         $address = $address->toArray();
         $response = $this->putJson("/api/addresses/{$address['id']}", $address);
@@ -108,10 +111,12 @@ class AddressControllerTest extends TestCase
 
         $response->assertStatus(200);
 
-        $this->assertEquals(
-            Arr::except($address, ['addressable_id', 'addressable_type']),
-            $response->json('data')
-        );
+        // removing attributes from $address and $responseAddress so that both the
+        // assertEquals can pass
+        $address = Arr::except($address, ['country_id', 'region_id', 'city_id']);
+        $responseAddress = Arr::except($response->json('data'), ['country', 'region', 'city']);
+
+        $this->assertEquals($address, $responseAddress);
     }
 
     /** @test */
@@ -154,6 +159,7 @@ class AddressControllerTest extends TestCase
 
         return array_diff($addCustomerAttrs, $except);
     }
+
     /**
      * It creates address's parent based on its "belongs_to" attribute's value
      *

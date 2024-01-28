@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Enums\AddressBelongsTo;
+use App\Models\City;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class AddressRequest extends FormRequest
 {
@@ -36,6 +38,35 @@ class AddressRequest extends FormRequest
             'belongs_to' => ['required', Rule::enum(AddressBelongsTo::class)],
             'belongs_to_id' => 'required',
             'applicable_for_shipping' => 'sometimes|nullable|boolean'
+        ];
+    }
+
+    public function after()
+    {
+        return [
+            function (Validator $validator) {
+
+                $countryId = $validator->getValue('country_id');
+                $regionId = $validator->getValue('region_id');
+                $cityId = $validator->getValue('city_id');
+
+                if ($countryId && $regionId && $cityId) {
+
+                    $city = City::with(['country', 'region'])->find($cityId);
+
+                    // Make sure that the selected city has correct path till country
+                    if ($city->country_id !== $countryId ||
+                        $city->region_id !== $regionId ||
+                        $city->id !== $cityId) {
+
+                        $validator->errors()->add(
+                            'city_id',
+                            'Selected country, region or city is invalid'
+                        );
+
+                    }
+                }
+            }
         ];
     }
 }

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('addressable_type');
             $table->string('belongs_to');
             $table->unsignedTinyInteger('applicable_for_shipping')->nullable()->default(0);
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

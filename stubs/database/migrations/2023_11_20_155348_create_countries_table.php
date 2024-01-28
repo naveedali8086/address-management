@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('cca2')->unique(); // 2-digit alphabetic country code
-            $table->string('dialing_code')->unique();
+            $table->string('name');
+            $table->string('cca2'); // 2-digit alphabetic country code
+            $table->string('cca3'); // 3-digit alphabetic country code
+            $table->string('dialing_code');
+            $table->unique(['name', 'cca2', 'dialing_code']);
             $table->timestamps();
         });
     }

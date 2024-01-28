@@ -42,6 +42,7 @@ class AddressController extends Controller
         );
 
         if ($address) {
+            $address->load(['country', 'region', 'city']);
             return (new AddressResource($address))
                 ->response()
                 ->setStatusCode(201);
@@ -55,6 +56,7 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
+        $address->load(['country', 'region', 'city']);
         return new AddressResource($address);
     }
 
@@ -71,11 +73,12 @@ class AddressController extends Controller
         // getting address's parent model
         $parentModel = $parentModelClass::findOrFail($request->input('belongs_to_id'));
 
-        $updated = $parentModel->address()->update(
+        $updated = $parentModel->addresses()->update(
             Arr::except($request->validated(), ['belongs_to_id'])
         );
 
         if ($updated) {
+            $address->load(['country', 'region', 'city']);
             return new AddressResource($address);
         } else {
             abort(500, 'Failed to update the address');
