@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Models;
 
 use App\Enums\AddressBelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
