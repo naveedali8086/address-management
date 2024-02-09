@@ -40,7 +40,7 @@ class AddressFactory extends Factory
             'lat' => fake()->randomElement([fake()->latitude(), null]),
             'long' => fake()->randomElement([fake()->longitude(), null]),
             'belongs_to' => fake()->randomElement(AddressBelongsTo::cases()),
-            'applicable_for_shipping' => fake()->randomElement([0, 1])
+            'applicable_for_shipping' => fake()->boolean()
         ];
 
         // set longitude if latitude is set
