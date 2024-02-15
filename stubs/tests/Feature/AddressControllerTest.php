@@ -139,7 +139,7 @@ class AddressControllerTest extends TestCase
 
     private function getAddressAttributes(array $except = []): array
     {
-        $addCustomerAttrs = [
+        $attrs = [
             'id',
             'line_1',
             'line_2',
@@ -157,7 +157,7 @@ class AddressControllerTest extends TestCase
             'updated_at'
         ];
 
-        return array_diff($addCustomerAttrs, $except);
+        return array_diff($attrs, $except);
     }
 
     /**
