@@ -1,7 +1,7 @@
 ## Introduction
 
 This package provides a minimal address management / CRUD scaffolding, in which an `Address` entity morphTo
-any entity that is addressable i.e. Customer, Employee, User or any other entity is addressable. So you do not need 
+any entity that is addressable i.e. Customer, Employee, User or any other entity is addressable in your application. So you do not need 
 to redefine the address related fields in parent entity (that is addressable) or make changes in a controller, 
 formRequests and all other places to accommodate address related fields. All you have to do is just add
 a new case in `App\Enums\AddressBelongsTo` as well as in `getAddressParentModelClass()` method of this enum that represent
