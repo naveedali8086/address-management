@@ -8,7 +8,7 @@ a new case in `App\Enums\AddressBelongsTo` as well as in `getAddressParentModelC
 your model/entity, and you are good to go. And yes, once you add your new parent model that would have addresses, do not
 forget to add `addresses()` relationship method in that model.
 
-It publishes controllers, models, formRequests, resources, migrations, factories, test cases for Country, 
+It publishes controllers, models, formRequests, eloquent's resource classes, migrations, factories, test cases for Country, 
 Region, City and Address resources to your application that can be easily customized based on your own application's needs.
 
 Note: To populate you app DB with real countries, regions and cities, please download from this repo
